@@ -3,6 +3,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
+const controllers = require('../controllers');
 
 
 module.exports = (app, rootPath) => {
@@ -31,6 +32,8 @@ module.exports = (app, rootPath) => {
         res.status(status).json({ message:message });
         next();
     });
+
+    app.controllers = controllers;
 
     // error handler
     /*app.use((err, req, res, next) => {
