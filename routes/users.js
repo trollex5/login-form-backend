@@ -37,9 +37,9 @@ router
     const { user_name, password } = req.body;
 
     try {
-      const loginResult = await req.app.controllers.user.login(user_name, password);
+      const loginResult = await req.app.controllers.user.login({user_name, password});
 
-      res.status(registrationResult.code === 'success' ? 200 : 500).json(loginResult);
+      res.status(loginResult.code === 'success' ? 200 : 500).json(loginResult);
     } catch (err) {
       res.status(204).json({error: err});
     }
