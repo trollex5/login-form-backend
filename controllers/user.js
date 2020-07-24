@@ -1,8 +1,7 @@
 const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const secret = require('../config/env.config');
-const db = require('../config/db.config');
-
+const app = require('../app');
 
 function validateUser(req, res) {
     const errors = validationResult(req);
@@ -23,7 +22,7 @@ module.exports = {
     names: async (msg) => {
         console.log("---userId--- ", msg.userId);
         try {
-            const user = await db.one("SELECT * FROM users WHERE pk=$1", [msg.userId]);
+            const user = await app.models.user.getById(msg.userId);
             return {
                 code: 'found',
                 message: 'Successfully found user!',
@@ -42,7 +41,7 @@ module.exports = {
         const { user_name, password } = msg;
 
         try {
-            const user = await db.one("SELECT * FROM users WHERE user_name=$1 AND password=$2", [user_name, password]);
+            const user = await app.models.user.checkLogin(user_name, password);
             const environment = process.env.NODE_ENV || 'development';
             const token = jwt.sign({
                 email: user.email,
@@ -67,7 +66,7 @@ module.exports = {
     },
     registration: async (msg) => {
         try {
-            const user = await db.one("INSERT INTO users (email, password, user_name, first_name, last_name) VALUES (${email}, ${password}, ${user_name}, ${first_name}, ${last_name}) RETURNING pk", msg)
+            const user = await app.models.user.create(msg);
             return { 
                 code: 'success',
                 message:'User created!',
