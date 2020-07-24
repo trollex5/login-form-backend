@@ -11,7 +11,7 @@ router
     
     try {
       const namesResult = await req.app.controllers.user.names({ userId });
-      res.status(namesResult.code === 'found' ? 200 : 204).json(namesResult);
+      res.status(namesResult.status === 'found' ? 200 : 204).json(namesResult);
     } catch (err) {
       res.status(204).json({error: err});
     }
@@ -28,7 +28,7 @@ router
         last_name
       });
 
-      res.status(registrationResult.code === 'success' ? 201 : 500).json(registrationResult);
+      res.status(registrationResult.status === 'success' ? 201 : 500).json(registrationResult);
     } catch (err) {
       res.status(500).json({error: err});
     }
@@ -39,7 +39,7 @@ router
     try {
       const loginResult = await req.app.controllers.user.login({user_name, password});
 
-      res.status(loginResult.code === 'success' ? 200 : 500).json(loginResult);
+      res.status(loginResult.status === 'success' ? 200 : 500).json(loginResult);
     } catch (err) {
       res.status(204).json({error: err});
     }

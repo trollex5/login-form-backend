@@ -24,7 +24,7 @@ module.exports = function(app) {
             try {
                 const user = await app.models.user.getById(msg.userId);
                 return {
-                    code: 'found',
+                    status: 'found',
                     message: 'Successfully found user!',
                     user
                 };
@@ -32,7 +32,7 @@ module.exports = function(app) {
                 console.log("users login 500 ", error);
 
                 return {
-                    code: 'notFound',
+                    status: 'notFound',
                     message:'User not found!'
                 };
             }
@@ -49,7 +49,7 @@ module.exports = function(app) {
                 }, secret[environment].jwtSecret, { expiresIn: '1h' });
 
                 return {
-                    code: 'success',
+                    status: 'success',
                     message: 'Successfully logged in!',
                     token
                 };
@@ -57,7 +57,7 @@ module.exports = function(app) {
                 console.log(" users login 500 ", error);
                 if(!error.received) {
                     return {
-                        code: 'fail',
+                        status: 'fail',
                         message:'User not found!',
                         error
                     };
@@ -68,14 +68,14 @@ module.exports = function(app) {
             try {
                 const user = await app.models.user.create(msg);
                 return { 
-                    code: 'success',
+                    status: 'success',
                     message:'User created!',
                     userId: user.pk
                 };
             } catch (error) {
                 console.log("registration error ", error);
                 return {
-                    code: 'fail',
+                    status: 'fail',
                     message:'Internal Server Error!',
                     error
                 };
