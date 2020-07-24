@@ -1,3 +1,5 @@
-module.exports = {
-    user: require('./user')
+module.exports = function(app) {
+    return {
+        user: require('./user')(app)
+    };
 };

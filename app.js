@@ -6,9 +6,7 @@ const initMiddleware = require('./config/middleware.config');
 const environment = process.env.NODE_ENV || 'development';
 const envOpts = envConfig[environment];
 
-const app = express();
-
-initMiddleware(app, envOpts.rootPath);
+const app = initMiddleware(express(), envOpts.rootPath);
 
 
 /*initDb(envOpts.dbConnectionStr)

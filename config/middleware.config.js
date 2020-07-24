@@ -35,9 +35,11 @@ module.exports = (app, rootPath) => {
         next();
     });
 
-    app.controllers = controllers;
+    app.controllers = controllers(app);
     app.db = db;
     app.models = models(db);
+
+    return app;
 
     // error handler
     /*app.use((err, req, res, next) => {
