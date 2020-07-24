@@ -4,6 +4,8 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const controllers = require('../controllers');
+const db = require('../config/db.config');
+const models = require('../models');
 
 
 module.exports = (app, rootPath) => {
@@ -34,6 +36,8 @@ module.exports = (app, rootPath) => {
     });
 
     app.controllers = controllers;
+    app.db = db;
+    app.models = models(db);
 
     // error handler
     /*app.use((err, req, res, next) => {
